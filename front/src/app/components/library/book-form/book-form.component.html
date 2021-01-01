@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-sm-8 col-sf-offset-2">
+        <h2>Enregistrer un Nouveau Livre</h2>
+        <form [formGroup]="bookForm" (ngSubmit)='onSaveBook()'>
+            <div class="form-group">
+                <label for="title">Titre</label>
+                <input type="text" class="form-control" id="title" formControlName="title">
+            </div>
+            <div class="form-group">
+                <label for="author">Auteur</label>
+                <input type="text" class="form-control" id="title" formControlName="author">
+            </div>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" name="isRead" value="true" formControlName="isRead">
+                    <label>Lu</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" name="isRead" value="false" formControlName="isRead">
+                    <label>Non-Lu</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success" [disabled]="bookForm.invalid">Enregistrer</button>
+        </form>
+    </div>
+</div>

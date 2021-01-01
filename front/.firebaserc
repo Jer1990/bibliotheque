@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "library-f91bc": {
+      "hosting": {
+        "front": [
+          "library-f91bc"
+        ]
+      }
+    }
+  }
+}
