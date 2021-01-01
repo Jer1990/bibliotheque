@@ -20,7 +20,12 @@
                     <label>Non-Lu</label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success" [disabled]="bookForm.invalid">Enregistrer</button>
+            <div class="form-group">
+                <h4>Ajouter une photo</h4>
+                <input type="file" (change)='detectFile($event)' class="form-control" accept="image/*">
+                <p class="text-success" *ngIf="fileUploaded">Fichier Chargé</p>
+            </div>
+            <button type="submit" class="btn btn-success" [disabled]="bookForm.invalid || fileIsUploading">Enregistrer</button>
         </form>
     </div>
 </div>

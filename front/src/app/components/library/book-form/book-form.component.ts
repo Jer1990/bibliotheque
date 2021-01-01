@@ -11,7 +11,10 @@ import { BookService } from 'src/app/services/book.service';
 })
 export class BookFormComponent implements OnInit {
 
-  bookForm:FormGroup
+  bookForm:FormGroup;
+  fileIsUploading = false;
+  fileUrl:string;
+  fileUploaded=false;
 
   constructor(private formBuilder:FormBuilder, private bookService:BookService, private router:Router) { }
 
@@ -32,8 +35,24 @@ export class BookFormComponent implements OnInit {
     const author= this.bookForm.get('author').value;
     const isRead= this.bookForm.get('isRead').value;
     const newBook = new Book(title,author,isRead);
+    if(this.fileUrl && this.fileUrl !== ''){
+      newBook.photo=this.fileUrl
+    }
     this.bookService.createNewBook(newBook);
     this.router.navigate(['/books'])
+  }
+
+  onUploadFile(file){
+    this.fileIsUploading=true
+    this.bookService.uploadFile(file).then((url:string)=>{
+      this.fileUrl=url;
+      this.fileIsUploading=false;
+      this.fileUploaded=true
+    })
+  }
+
+  detectFile(event){
+    this.onUploadFile(event.target.files[0]);
   }
 
 

@@ -29,7 +29,7 @@ export class BookService {
 
     getBook(id:number){
         return new Promise((resolve, reject)=>{
-            firebase.database().ref("/books" + id).once('value')
+            firebase.database().ref("/books/" + id).once('value')
             .then((data)=>{
                 resolve(data.val())
             },(error)=>{
@@ -54,6 +54,26 @@ export class BookService {
         this.saveBooks();
         this.emitBooks()
         
+    }
+
+    uploadFile(file:File){
+        return new Promise((resolve,reject)=>{
+            const uniqueFileName= Date.now().toString();
+            const upload = firebase.storage().ref().child('images/'+uniqueFileName+file.name).put(file);
+            upload.on(firebase.storage.TaskEvent.STATE_CHANGED,()=>{
+                console.log('chargement...')
+            },(error)=>{
+                console.log('erreur de chargement' + error);
+                //reject();
+            },()=>{
+                upload.snapshot.ref.getDownloadURL().then(
+                  (downloadUrl) => {
+                    console.log('Upload successful! ('+downloadUrl+')');
+                    resolve(downloadUrl);
+                  }
+                );
+              })
+        })
     }
 
 }
