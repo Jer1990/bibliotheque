@@ -45,6 +45,14 @@ export class BookService {
     }
 
     removeBook(book:Book){
+        if(book.photo){
+            const storageRef=firebase.storage().refFromURL(book.photo);
+            storageRef.delete().then(()=>{
+                console.log('photo supprimer');
+            }).catch((error)=>{
+                console.log(error)
+            })
+        }
         const bookIndex= this.books.findIndex((bookFound)=>{
             if(bookFound === book){
                 return true;
@@ -59,7 +67,7 @@ export class BookService {
     uploadFile(file:File){
         return new Promise((resolve,reject)=>{
             const uniqueFileName= Date.now().toString();
-            const upload = firebase.storage().ref().child('images/'+uniqueFileName+file.name).put(file);
+            const upload = firebase.storage().ref().child('images/'+ uniqueFileName + file.name).put(file);
             upload.on(firebase.storage.TaskEvent.STATE_CHANGED,()=>{
                 console.log('chargement...')
             },(error)=>{
